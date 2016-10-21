@@ -13,8 +13,8 @@ import generics.sample.model.Tiger;
 
 public class ListSamples {
 
-  // sample for row type
-  public void rowTypeSample() {
+  // sample for raw type
+  public void rawTypeSample() {
     // ジェネリクスを使わないRowTypeのリストの生成
     List list = new ArrayList();
 
@@ -27,7 +27,7 @@ public class ListSamples {
     Cat cat = (Cat)list.get(0);
 
     // これは実行時に失敗する
-    // Cat cat (Cat)list.get(2);
+    // Cat cat = (Cat)list.get(2);
   }
 
   // sample for simple generics

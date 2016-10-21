@@ -5,7 +5,7 @@ import org.junit.Test;
 // 実行時に例外にならないことだけ確認する
 public class ListSamplesTest {
   @Test
-  public void testRowTypeSample() { new ListSamples().rowTypeSample(); }
+  public void testRawTypeSample() { new ListSamples().rawTypeSample(); }
 
   @Test
   public void testSampleForSimpleGenerics() { new ListSamples().sampleForSimpleGenerics(); }

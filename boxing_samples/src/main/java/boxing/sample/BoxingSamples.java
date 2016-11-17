@@ -77,6 +77,11 @@ public class BoxingSamples {
     boolean bool = true;
     Boolean boolean_ = bool;
     boolean bool2 = boolean_;
+    
+    // オブジェクト型の変数にはnullを入れることが出来るが、
+    // null値にオートボクシングをかけようとすると実行時に例外になる
+    // Integer null_value = null;
+    // int null_v = null_value;
   }
 
   // 実践的な例として、数値の入ったListをつくり
@@ -167,9 +172,5 @@ public class BoxingSamples {
         filter(n -> n % 2 == 0).
         sorted((n, m) -> m - n).
         collect(Collectors.toList());
-  }
-
-  public static void main(String... args) {
-    new BoxingSamples().omake();
   }
 }

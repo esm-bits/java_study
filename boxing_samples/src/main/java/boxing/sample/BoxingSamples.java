@@ -94,12 +94,12 @@ public class BoxingSamples {
     // なぜなら、プリミティブ型のintはObjectのサブクラスではないため
     // list.add(1);
 
-    list.add(Integer.valueOf(1));
-    list.add(Integer.valueOf(2));
-    list.add(Integer.valueOf(3));
-    list.add(Integer.valueOf(4));
-    list.add(Integer.valueOf(5));
-    list.add(Integer.valueOf(6));
+    list.add(new Integer(1));
+    list.add(new Integer(2));
+    list.add(new Integer(3));
+    list.add(new Integer(4));
+    list.add(new Integer(5));
+    list.add(new Integer(6));
 
     // あるいはArrays.asListを使う
     List list2 = Arrays.asList(new Integer[] { new Integer(1), new Integer(2), new Integer(3), new Integer(4), new Integer(5), new Integer(6) });
@@ -168,7 +168,7 @@ public class BoxingSamples {
   // おまけ
   // Java8だと実質１行で書ける
   public List<Integer> omake() {
-    return Arrays.asList(new Integer[] { 1, 2, 3, 4, 5, 6 }).stream().
+    return Arrays.asList(1, 2, 3, 4, 5, 6 ).stream().
         filter(n -> n % 2 == 0).
         sorted((n, m) -> m - n).
         collect(Collectors.toList());

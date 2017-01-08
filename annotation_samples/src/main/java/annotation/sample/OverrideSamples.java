@@ -8,7 +8,7 @@ public class OverrideSamples {
   }
 
   // オーバーライドする例
-  // 1.4 以前は、名前と引数を一致させてオーバラードしていた
+  // 1.4 以前は、名前と引数を一致させてオーバライドしていた
   private class Cat implements Breedable{
     public String breed(String food){
       return  food + " is good!";

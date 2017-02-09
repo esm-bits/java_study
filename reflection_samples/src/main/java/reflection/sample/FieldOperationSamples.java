@@ -21,9 +21,11 @@ public class FieldOperationSamples {
       Object instance = clazz.newInstance();
       Field field = clazz.getDeclaredField("package_private_field");
       field.setAccessible(true);
-      System.out.println(field.get(instance));
-      field.set(instance, "package private field!");
-      System.out.println(field.get(instance));
+      field.setAccessible(false);
+      Field field2 = clazz.getDeclaredField("package_private_field");
+      System.out.println(field2.get(instance));
+      field2.set(instance, "package private field!");
+      System.out.println(field2.get(instance));
     }
 
     { // protected
@@ -49,38 +51,35 @@ public class FieldOperationSamples {
     Class<?> clazz = FieldOperationTarget.class;
     
     { // public
-      Object instance = clazz.newInstance();
       Field field = clazz.getField("public_static_field");
-      System.out.println(field.get(instance));
+      System.out.println(field.get(null));
       field.set(null, "public static field!");
-      System.out.println(field.get(instance));
+      System.out.println(field.get(null));
     }
 
     { // package private
-      Object instance = clazz.newInstance();
       Field field = clazz.getDeclaredField("package_private_static_field");
       field.setAccessible(true);
-      System.out.println(field.get(instance));
-      field.set(null, "package private static field!");
-      System.out.println(field.get(instance));
+      Field field2 = clazz.getDeclaredField("package_private_static_field");
+      System.out.println(field2.get(null));
+      field2.set(null, "package private static field!");
+      System.out.println(field2.get(null));
     }
 
     { // protected
-      Object instance = clazz.newInstance();
       Field field = clazz.getDeclaredField("protected_static_field");
       field.setAccessible(true);
-      System.out.println(field.get(instance));
+      System.out.println(field.get(null));
       field.set(null, "protected static field!");
-      System.out.println(field.get(instance));
+      System.out.println(field.get(null));
     }
 
     { // private
-      Object instance = clazz.newInstance();
       Field field = clazz.getDeclaredField("private_static_field");
       field.setAccessible(true);
-      System.out.println(field.get(instance));
+      System.out.println(field.get(null));
       field.set(null, "private staitc field!");
-      System.out.println(field.get(instance));
+      System.out.println(field.get(null));
     }
   }
   
@@ -93,6 +92,10 @@ public class FieldOperationSamples {
       System.out.println(field.get(instance));
       // 代入する前にAccessibleフラグを立てる必要がある
       field.setAccessible(true);
+      
+      System.out.println(Integer.toBinaryString(field.getModifiers()));
+      System.out.println(Modifier.isFinal(field.getModifiers()));
+      
       // 通常finalなフィールドへ再代入は出来ない
       // ((FieldOperationTarget)instance).public_final_field = "hoge"; // コンパイルエラーになる
       // リフレクションをつかえばfinalなフィールドの値を書き換えることが可能
@@ -163,9 +166,9 @@ public class FieldOperationSamples {
   }
   
   public static void main(String...args) throws Exception {
-    new FieldOperationSamples().operation_instance_fields();
+    //new FieldOperationSamples().operation_instance_fields();
     new FieldOperationSamples().operation_static_fields();
-    new FieldOperationSamples().operation_instance_final_fields();
-    new FieldOperationSamples().operation_static_final_fields();
+    //new FieldOperationSamples().operation_instance_final_fields();
+    //new FieldOperationSamples().operation_static_final_fields();
   }
 }

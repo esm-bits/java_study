@@ -30,8 +30,8 @@ public class MethodCaller {
   public void invokePackagePrivateMethod() throws Exception {
     Class<?> clazz = MethodCallee.class;
 
-    // MethodCalleeの非publicなメソッドはgetClassできない
-    // Method method = clazz.getMethod("packagePrivateMethod", String.class);
+    // MethodCalleeの非publicなメソッドはgetMethodできない
+    //Method method = clazz.getMethod("packagePrivateMethod", String.class);
 
     Method method = clazz.getDeclaredMethod("packagePrivateMethod", String.class);
 
@@ -101,30 +101,6 @@ public class MethodCaller {
     System.out.println(result);
   }
 
-  // 親クラスのメソッドを実行したい
-  public void invokeProtectedMethod3() throws Exception {
-    Class<?> clazz = SubMethodCallee.class;
-
-    Method method = detectSuperClassMethod(SubMethodCallee.class, "protectedMethod", new Class[] { String.class });
-
-    method.setAccessible(true);
-
-    Object result = method.invoke(clazz.newInstance(), "Invoke");
-
-    System.out.println(result);
-  }
-
-  // スーパークラスのメソッドを探す
-  private Method detectSuperClassMethod(Class<?> clazz, String methodName, Class<?>[] parameterTypes) {
-    Class<?> superClazz = clazz.getSuperclass();
-
-    try {
-      return superClazz.getDeclaredMethod(methodName, parameterTypes);
-    } catch (NoSuchMethodException e) {
-      return detectSuperClassMethod(superClazz, methodName, parameterTypes);
-    }
-  }
-
   // protectedなクラスメソッドの実行
   public void invokeProtectedStaticMethod() throws Exception {
     Class<?> clazz = MethodCallee.class;
@@ -168,15 +144,19 @@ public class MethodCaller {
   public void invokeNoArgsMethod() throws Exception {
     Class<?> clazz = MethodCallee.class;
 
-    // 引数がない場合は空のClass配列を指定する
-    Method method = clazz.getMethod("noArgsMethod", new Class<?>[] {});
+    // 引数がない場合はgetMethod第二引数は不要
+    Method method = clazz.getMethod("noArgsMethod");
+    // または空のClass配列を指定する(昔の書き方)
+    // Method method = clazz.getMethod("noArgsMethod", new Class<?>[] {});
     // nullでも良い
-    // Method method = clazz.getMethod("noArgsMethod", null);
+    // Method method = clazz.getMethod("noArgsMethod", (Class<?>[])null);
 
-    // invokeする時は空のObject配列を指定する
-    Object result = method.invoke(clazz.newInstance(), new Object[] {});
+    // 引数が無い場合はinvokeの第二引数は不要
+    Object result = method.invoke(clazz.newInstance());
+    // または空のObject配列を指定する(昔の書き方)
+    // Object result = method.invoke(clazz.newInstance(), new Object[] {});
     // nullでも可
-    // Object result = method.invoke(clazz.newInstance(), null);
+    // Object result = method.invoke(clazz.newInstance(), (Object[])null);
 
     System.out.println(result);
   }
@@ -185,8 +165,9 @@ public class MethodCaller {
   public void invokeVariableLengthArgsMethod() throws Exception {
     Class<?> clazz = MethodCallee.class;
 
+    Method method = clazz.getMethod("variableLengthArgsMethod", String.class, String[].class);
     // 可変長引数の場合は、引数の型を配列で指定する
-    Method method = clazz.getMethod("variableLengthArgsMethod", new Class<?>[] { String.class, String[].class });
+    //Method method = clazz.getMethod("variableLengthArgsMethod", new Class<?>[] { String.class, String[].class });
 
     Object result = method.invoke(clazz.newInstance(), "A", new String[] { "B", "C" });
 
@@ -203,7 +184,6 @@ public class MethodCaller {
 
     new MethodCaller().invokeProtectedMethod();
     new MethodCaller().invokeProtectedMethod2();
-    new MethodCaller().invokeProtectedMethod3();
     new MethodCaller().invokeProtectedStaticMethod();
 
     new MethodCaller().invokePrivateMethod();

@@ -31,6 +31,7 @@ public class FunctionalInterfaceSamples {
     // testFunction();
     // testUnaryOperator();
     testBinaryOperator();
+    // testRunnable();
   }
 
   /*
@@ -166,5 +167,31 @@ public class FunctionalInterfaceSamples {
       return result;
     };
     System.out.println(factorial.applyAsInt(4, 5));
+  }
+
+  /*
+   * RunnableもFunctionalInterfaceの一つである。
+   * ちょっとした処理を行うスレッドを生成する時に以前は無名クラスを使用していたが、
+   * Java8以降はlambda式で書くことが出来る。
+   */
+  private static void testRunnable() {
+    // 昔の書き方
+    {
+      Thread t = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          System.out.println("hogehoge");
+        }
+      });
+
+      t.start();
+    }
+
+    //lambdaを使った書き方
+    {
+      Thread t = new Thread(() -> System.out.println("fugafuga"));
+
+      t.start();
+    }
   }
 }

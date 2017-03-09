@@ -34,7 +34,9 @@ public class TryWithResourcesSample {
         throw e;
       } finally {
         try {
-          bw.close();
+          if (b != null) {
+            bw.close();
+          }
         } catch (IOException e) {
           e.printStackTrace();
           throw e;

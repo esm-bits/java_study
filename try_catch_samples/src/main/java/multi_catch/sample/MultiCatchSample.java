@@ -1,5 +1,7 @@
 package multi_catch.sample;
 
+import java.io.IOException;
+
 import multi_catch.sample.model.ApplicationException;
 import multi_catch.sample.model.ExceptionA;
 import multi_catch.sample.model.ExceptionB;
@@ -7,7 +9,6 @@ import multi_catch.sample.model.ExceptionC;
 import multi_catch.sample.model.SubExceptionA;
 
 public class MultiCatchSample {
-  
   public void targetMethod() throws ExceptionA, ExceptionB, ExceptionC {
     throw new ExceptionA("A");
     // throw new ExceptionB("B");
@@ -51,8 +52,11 @@ public class MultiCatchSample {
   // ただし、こうするとRuntimeExceptionも捕まえてしまう
   public void exceptionHandling2() {
     try {
-      targetMethod();
+      throw new IOException();
     } catch(Exception e) {
+      if (e instanceof RuntimeException) {
+        throw e;
+      }
       System.out.println(e.getMessage());
     }
   }
@@ -103,6 +107,8 @@ public class MultiCatchSample {
     // new MultiCatchSample().exceptionHandling2();
     // new MultiCatchSample().exceptionHandling3();
     // new MultiCatchSample().exceptionHandling4();
-    new MultiCatchSample().exceptionHandling5();
+    // new MultiCatchSample().exceptionHandling5();
+    
+    System.out.println(Integer.MAX_VALUE);
   }
 }

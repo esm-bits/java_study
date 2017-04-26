@@ -55,7 +55,7 @@ public class MultiCatchSample {
       throw new IOException();
     } catch(Exception e) {
       if (e instanceof RuntimeException) {
-        throw e;
+        throw (RuntimeException)e;
       }
       System.out.println(e.getMessage());
     }

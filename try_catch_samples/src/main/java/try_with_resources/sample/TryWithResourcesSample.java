@@ -34,7 +34,7 @@ public class TryWithResourcesSample {
         throw e;
       } finally {
         try {
-          if (b != null) {
+          if (bw != null) {
             bw.close();
           }
         } catch (IOException e) {

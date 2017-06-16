@@ -1,21 +1,25 @@
 package stream.lesson;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
-import org.junit.Test;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import stream.lesson.StreamTest.Employee.Sex;
 
 public class StreamTest {
 
     static class Employee {
+        enum Sex {
+            MALE, FEMALE
+        }
+
         // 所属する事業部
         int department;
 
@@ -25,10 +29,14 @@ public class StreamTest {
         // 年齢
         int age;
 
-        public Employee(int department, String name, int age) {
+        // 性別
+        Sex sex;
+
+        public Employee(int department, String name, int age, Sex sex) {
             this.department = department;
             this.name = name;
             this.age = age;
+            this.sex = sex;
         }
 
         public int getDepartment() {
@@ -54,18 +62,26 @@ public class StreamTest {
         public void setAge(int age) {
             this.age = age;
         }
+
+        public Sex getSex() {
+            return sex;
+        }
+
+        public void setSex(Sex sex) {
+            this.sex = sex;
+        }
     }
 
     @Test
     public void 社員を事業部ごとにグループ化し事業部内は年齢で昇順に() throws Exception {
 
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(100, "谷田部 みね子", 18));
-        employees.add(new Employee(100, "助川 時子", 19));
-        employees.add(new Employee(200, "角谷 三男", 19));
-        employees.add(new Employee(300, "永井 愛子", 42));
-        employees.add(new Employee(300, "秋葉 幸子", 25));
-        employees.add(new Employee(300, "夏井 優子", 21));
+        employees.add(new Employee(100, "谷田部 みね子", 18, Sex.FEMALE));
+        employees.add(new Employee(100, "助川 時子", 19, Sex.FEMALE));
+        employees.add(new Employee(200, "角谷 三男", 19, Sex.MALE));
+        employees.add(new Employee(300, "永井 愛子", 42, Sex.FEMALE));
+        employees.add(new Employee(300, "秋葉 幸子", 25, Sex.FEMALE));
+        employees.add(new Employee(300, "夏井 優子", 21, Sex.FEMALE));
 
         Map<Integer, List<Employee>> grouped = employees.stream()
                 // あれやこれや
@@ -81,5 +97,25 @@ public class StreamTest {
         assertThat(grouped.get(300).get(0).name, is("夏井 優子"));
         assertThat(grouped.get(300).get(1).name, is("秋葉 幸子"));
         assertThat(grouped.get(300).get(2).name, is("永井 愛子"));
+    }
+
+    @Test
+    public void 男性社員と女性社員の平均年齢を算出() throws Exception {
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(100, "Ken Tokugawa", 20, Sex.MALE));
+        employees.add(new Employee(100, "Yumi Akita", 25, Sex.FEMALE));
+        employees.add(new Employee(200, "Takashi Masuda", 30, Sex.MALE));
+        employees.add(new Employee(300, "Masao Yoshino", 34, Sex.MALE));
+        employees.add(new Employee(300, "Ryoko Hanamura", 40, Sex.FEMALE));
+        employees.add(new Employee(300, "Miki Ichikawa", 43, Sex.FEMALE));
+
+        Map<Sex, Double> averages = employees.stream()
+                // あれやこれや
+                ;
+        assertThat(averages.size(), is(2));
+        assertThat(averages, hasKey(Sex.MALE));
+        assertThat(averages.get(Sex.MALE), is(28.0));
+        assertThat(averages.get(Sex.FEMALE), is(36.0));
     }
 }

@@ -7,23 +7,28 @@ public class LambdaLesson {
   public static void lesson() {
 
     // 引数（Integer）を２倍にして返却するFunction
-    Function<> function = ...;
-    System.out.println(function.apply(3));
+    Function<Integer,Integer> multiplyFunction = v -> v * 2;
+    System.out.println(multiplyFunction.apply(3));
 
     // 引数のStringを比較するComparator
-    Comparator<String> comparator = ...;
+    Comparator<String> comparator = String::compareTo;
     System.out.println(comparator.compare("aaa", "bbb"));
   }
 
-  public static String higherOrderFunction(Function<List<String>, String> function) {
-    List<String> data = Arrays.asList("Java8", "lambda", "stream");
+  public static String higherOrderFunction( List<String> data, Function<List<String>, String> function) {
 
+	// 昇順にソート
+    data.sort(Comparator.naturalOrder());
+
+    // 指定されたメソッドの実行
     return function.apply(data);
   }
 
+
+  // Html形式のリスト化
   public static Function<List<String>, String> listToHtml() {
     return (list) -> {
-      StringBuilder sb =new StringBuilder();
+      StringBuilder sb = new StringBuilder();
       sb.append("<ul>").append("\n");
       for (String element : list ){
         sb.append("  ").append("<li>").append(element).append("</li>").append("\n");
@@ -34,13 +39,21 @@ public class LambdaLesson {
     };
   }
 
+  // Markdown形式のリスト化
   public static Function<List<String>, String> listToMarkdown() {
-    return null; // FIXME
+    return (list) -> {
+    	StringBuilder sb = new StringBuilder();
+    	list.forEach(element -> sb.append("* ").append(element).append("\n"));
+    	return sb.toString();
+    };
   }
+
 
   public static void main(String[] args) {
     lesson();
 
-    System.out.println(higherOrderFunction(listToHtml()));
+    List<String> data = Arrays.asList("lambda", "stream","Java8");
+
+    System.out.println(higherOrderFunction(data, listToMarkdown()));
   }
 }

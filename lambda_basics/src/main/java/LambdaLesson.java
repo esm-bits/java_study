@@ -7,11 +7,11 @@ public class LambdaLesson {
   public static void lesson() {
 
     // 引数（Integer）を２倍にして返却するFunction
-    Function<Integer,Integer> multilyFunction = v -> v * 2;
-    System.out.println(multilyFunction.apply(3));
+    Function<Integer,Integer> multiplyFunction = v -> v * 2;
+    System.out.println(multiplyFunction.apply(3));
 
     // 引数のStringを比較するComparator
-    Comparator<String> comparator = (a,b) -> a.compareTo(b);
+    Comparator<String> comparator = String::compareTo;
     System.out.println(comparator.compare("aaa", "bbb"));
   }
 

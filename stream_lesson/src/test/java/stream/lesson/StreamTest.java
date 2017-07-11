@@ -1,9 +1,7 @@
 package stream.lesson;
 
-import static org.hamcrest.Matchers.hasKey;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +82,7 @@ public class StreamTest {
         employees.add(new Employee(300, "夏井 優子", 21, Sex.FEMALE));
 
         Map<Integer, List<Employee>> grouped = employees.stream()
-                // あれやこれや
+                // あれやこれや test
                 ;
         assertThat(grouped.size(), is(3));
         assertThat(grouped, hasKey(100));

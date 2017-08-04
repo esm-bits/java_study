@@ -6,8 +6,10 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -83,9 +85,10 @@ public class StreamTest {
         employees.add(new Employee(300, "秋葉 幸子", 25, Sex.FEMALE));
         employees.add(new Employee(300, "夏井 優子", 21, Sex.FEMALE));
 
-        Map<Integer, List<Employee>> grouped = employees.stream()
-                // あれやこれや
-                ;
+        Map<Integer, List<Employee>> grouped =
+            employees.stream()
+                .sorted(Comparator.comparing(Employee::getAge))
+                .collect(Collectors.groupingBy(Employee::getDepartment));
         assertThat(grouped.size(), is(3));
         assertThat(grouped, hasKey(100));
         assertThat(grouped.get(100), hasSize(2));
@@ -110,9 +113,10 @@ public class StreamTest {
         employees.add(new Employee(300, "Ryoko Hanamura", 40, Sex.FEMALE));
         employees.add(new Employee(300, "Miki Ichikawa", 43, Sex.FEMALE));
 
-        Map<Sex, Double> averages = employees.stream()
-                // あれやこれや
-                ;
+        Map<Sex, Double> averages =
+            employees.stream()
+                .collect(Collectors.groupingBy(Employee::getSex,
+                                               Collectors.averagingDouble(Employee::getAge)));
         assertThat(averages.size(), is(2));
         assertThat(averages, hasKey(Sex.MALE));
         assertThat(averages.get(Sex.MALE), is(28.0));

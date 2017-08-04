@@ -6,10 +6,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.averagingDouble;
+import static java.util.stream.Collectors.groupingBy;
 
 import org.junit.Test;
 
@@ -87,8 +88,8 @@ public class StreamTest {
 
         Map<Integer, List<Employee>> grouped =
             employees.stream()
-                .sorted(Comparator.comparing(Employee::getAge))
-                .collect(Collectors.groupingBy(Employee::getDepartment));
+                .sorted(comparing(Employee::getAge))
+                .collect(groupingBy(Employee::getDepartment));
         assertThat(grouped.size(), is(3));
         assertThat(grouped, hasKey(100));
         assertThat(grouped.get(100), hasSize(2));
@@ -115,8 +116,8 @@ public class StreamTest {
 
         Map<Sex, Double> averages =
             employees.stream()
-                .collect(Collectors.groupingBy(Employee::getSex,
-                                               Collectors.averagingDouble(Employee::getAge)));
+                .collect(groupingBy(Employee::getSex,
+                                    averagingDouble(Employee::getAge)));
         assertThat(averages.size(), is(2));
         assertThat(averages, hasKey(Sex.MALE));
         assertThat(averages.get(Sex.MALE), is(28.0));

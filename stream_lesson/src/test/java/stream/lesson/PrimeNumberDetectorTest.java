@@ -12,17 +12,17 @@ public class PrimeNumberDetectorTest {
     // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
     // ※ まだ答えを書いていません…
     public List<Integer> detect(int i) {
-        // TODO
-
-        return null;
+      // TODO
+      
+      return null;
     }
 
     // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
     // ※ まだ答えを書いていません…
     public List<Integer> detectParallel(int i) {
-        // TODO
+      // TODO
 
-        return null;
+      return null;
     }
   }
 

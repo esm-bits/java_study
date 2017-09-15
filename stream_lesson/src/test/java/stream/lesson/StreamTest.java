@@ -85,9 +85,9 @@ public class StreamTest {
         employees.add(new Employee(300, "秋葉 幸子", 25, Sex.FEMALE));
         employees.add(new Employee(300, "夏井 優子", 21, Sex.FEMALE));
 
-//        Map<Integer, List<Employee>> grouped = employees.stream()
-//                // あれやこれや
-//                ;
+        Map<Integer, List<Employee>> grouped = employees.stream()
+                // あれやこれや
+                ;
         assertThat(grouped.size(), is(3));
         assertThat(grouped, hasKey(100));
         assertThat(grouped.get(100), hasSize(2));

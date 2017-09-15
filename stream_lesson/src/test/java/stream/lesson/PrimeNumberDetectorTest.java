@@ -5,9 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
@@ -33,14 +31,8 @@ public class PrimeNumberDetectorTest {
     public List<Integer> detectParallel(int i) {
       return IntStream.rangeClosed(2, i).parallel()
           .filter(num -> num >= 2)
-          .filter(num -> {
-            if (num == 2) {
-              return true;
-            }
-            return IntStream.range(2, num).parallel()
-                .allMatch(n -> num % n != 0);
-          })
-          .mapToObj(Integer::new)
+          .filter(num -> num == 2 || IntStream.range(2, num).parallel().allMatch(n -> num % n != 0))
+          .boxed()
           .collect(toList());
     }
   }

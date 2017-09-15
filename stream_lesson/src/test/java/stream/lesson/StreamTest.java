@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import stream.lesson.StreamTest.Employee.Sex;
 
-@Ignore
 public class StreamTest {
 
     static class Employee {

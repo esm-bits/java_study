@@ -16,5 +16,7 @@ include 'generics_samples'
 include 'lambda_samples'
 include 'reflection_samples'
 include 'try_catch_samples'
+include 'stream_samples'
+include 'stream_lesson'
 
 rootProject.name = 'java_study'

@@ -1,29 +1,44 @@
 package stream.lesson;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import java.util.Arrays;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.junit.Test;
 
 public class PrimeNumberDetectorTest {
 
   private class PrimeNumberDetector {
     // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
     public List<Integer> detect(int i) {
-      // TODO
-      
-      return null;
+    	List<Integer> list = IntStream.rangeClosed(2, i)
+    			.filter(n -> isPrime(n))
+    			.boxed()
+    			.collect(Collectors.toList());
+      return list;
     }
 
     // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
     public List<Integer> detectParallel(int i) {
-      // TODO
-
-      return null;
+    	List<Integer> list = IntStream.rangeClosed(2, i)
+    			.parallel()
+    			.filter(n -> isPrime(n))
+    			.boxed()
+    			.collect(Collectors.toList());
+      return list;
     }
+
+    /*
+     * 素数かどうかを判定する
+     */
+    public boolean isPrime(int number) {
+        return IntStream.rangeClosed(2, (int) Math.sqrt(number))
+        		.allMatch(n -> (number % n) != 0);
+    }
+
   }
 
   @Test
@@ -39,6 +54,7 @@ public class PrimeNumberDetectorTest {
     assertThat(primeNumbers.get(5), is(13));
     assertThat(primeNumbers.get(6), is(17));
     assertThat(primeNumbers.get(7), is(19));
+
   }
 
   @Test

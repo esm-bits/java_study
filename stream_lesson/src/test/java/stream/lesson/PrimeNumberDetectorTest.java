@@ -1,29 +1,52 @@
 package stream.lesson;
 
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.junit.Test;
 
 public class PrimeNumberDetectorTest {
 
   private class PrimeNumberDetector {
-    // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
     public List<Integer> detect(int i) {
-      // TODO
-      
-      return null;
+      // [[3], [2]], [[4], [2, 3]], [[5], [2, 3]], [[6], [2, 3, 5]] みたいなリストを
+      // 永遠に返す stream からひとつ選んで二つ目の要素を返す
+      return Stream.iterate(Arrays.asList(Arrays.asList(3), Arrays.asList(2)), l -> {
+        final Integer n = l.get(0).get(0);
+        final List<Integer> primes = l.get(1);
+        return primes.stream().allMatch(m -> n % m != 0) ?
+                Arrays.asList(Arrays.asList(n + 1), Stream.of(primes, Arrays.asList(n))
+                                                      .flatMap(List<Integer>::stream)
+                                                      .collect(toList())
+                ) : Arrays.asList(Arrays.asList(n + 1), primes);
+      }).filter(l -> l.get(0).get(0) == i + 1).findFirst().get().get(1);
     }
 
-    // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
+    // 他の人の回答を拝借
     public List<Integer> detectParallel(int i) {
-      // TODO
-
-      return null;
+      return IntStream.range(2, i)
+                      .parallel()
+                      .filter(PrimeNumberDetectorTest.this::isPrime)
+                      .boxed()
+                      .collect(toList());
     }
+  }
+
+  public boolean isPrime(int n) {
+        if (n < 2) {
+          return false;
+        } else if (n == 2) {
+          return true;
+        } else if ((n & 1) == 0) {
+          return false;
+        }
+      return IntStream.range(3, n).allMatch(x -> n % x != 0);
   }
 
   @Test

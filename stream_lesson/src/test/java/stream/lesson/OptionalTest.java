@@ -46,5 +46,7 @@ public class OptionalTest {
     assertThat(optionalTest.fizzBuzz(10).get(), is("Buzz"));
     assertTrue(optionalTest.fizzBuzz(15).isPresent());
     assertThat(optionalTest.fizzBuzz(15).get(), is("FizzBuzz"));
+    assertTrue(optionalTest.fizzBuzz(30).isPresent());
+    assertThat(optionalTest.fizzBuzz(30).get(), is("FizzBuzz"));
   }
 }

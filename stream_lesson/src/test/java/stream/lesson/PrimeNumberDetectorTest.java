@@ -1,28 +1,51 @@
 package stream.lesson;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import java.util.Arrays;
+import static java.util.stream.Collectors.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
 import java.util.List;
+import java.util.stream.IntStream;
+
 import org.junit.Test;
 
 public class PrimeNumberDetectorTest {
 
   private class PrimeNumberDetector {
     // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
     public List<Integer> detect(int i) {
-      // TODO
-      
-      return null;
+    	//引数で受け取ったiをrangeClosed(0, i)にてIntStream化
+    	//　※ちなみに、rangeClosed(start, end)だと、end値は含まれる。rangeだとend値は含まれない。
+    	//filter(this::isPrime)で引数で指定した条件に一致した(素数かどうか)モノだけのStreamにする。
+    	//boxed()でボクシング　int → Integer化
+    	//collect(toList())でリスト化
+      return IntStream.rangeClosed(0, i).filter(this::isPrime).boxed().collect(toList());
     }
 
     // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
     public List<Integer> detectParallel(int i) {
-      // TODO
+    	//parallel()メソッドを使用すると、順次ストリームを並列ストリームに変換してくれる(らしい)
+    	//逆に、並列ストリームを順次ストリームに変換するためにはsequential()メソッドを使う(らしい)
+    	return IntStream.rangeClosed(0, i).parallel().filter(this::isPrime).boxed().collect(toList());
+    }
 
-      return null;
+    /**
+     * 素数判定のメソッド
+     * @param n 整数
+     * @return 素数：true、素数じゃない：false
+     */
+    private boolean isPrime(int n) {
+    	//2以下の数値はfalseを返す
+    	if(n < 2) {
+    		return false;
+    	}
+
+    	for(int i = 2; i < n; i++) {
+    		if(n % i == 0) {
+    			return false;
+    		}
+    	}
+    	return true;
     }
   }
 

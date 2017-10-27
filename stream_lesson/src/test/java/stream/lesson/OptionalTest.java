@@ -1,7 +1,6 @@
 package stream.lesson;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -18,11 +17,11 @@ public class OptionalTest {
   public Optional<String> fizzBuzz(int i) {
 
     if ((i % 15) == 0) {
-      return of("FizzBuzz");
+      return Optional.of("FizzBuzz");
     } else if ((i % 3) == 0) {
-      return of("Fizz");
+      return Optional.of("Fizz");
     } else if ((i % 5) == 0) {
-      return of("Buzz");
+      return Optional.of("Buzz");
     } else {
       return empty();
     }

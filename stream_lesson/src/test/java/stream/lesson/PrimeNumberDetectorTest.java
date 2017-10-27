@@ -1,29 +1,40 @@
 package stream.lesson;
 
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+
 import org.junit.Test;
 
 public class PrimeNumberDetectorTest {
 
   private class PrimeNumberDetector {
-    // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
-    public List<Integer> detect(int i) {
-      // TODO
-      
-      return null;
-    }
 
-    // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
-    // ※ まだ答えを書いていません…
-    public List<Integer> detectParallel(int i) {
-      // TODO
+      // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
+      public List<Integer> detect(int i) {
+        return IntStream.rangeClosed(0,i).filter(this::isPrime).boxed().collect(toList());
+      }
 
-      return null;
-    }
+      // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
+      public List<Integer> detectParallel(int i) {
+        return IntStream.rangeClosed(0,i).parallel().filter(this::isPrime).boxed().collect(toList());
+      }
+
+      private boolean isPrime(int n) {
+        if (n < 2) {
+          return false;
+        } else if (n == 2) {
+          return true;
+        } else if ((n & 1) == 0) {
+          return false;
+        } else {
+          return IntStream.range(3, n).allMatch(x -> n % x != 0);
+        }
+      }
+
   }
 
   @Test

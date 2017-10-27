@@ -1,6 +1,8 @@
 package stream.lesson;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -17,15 +19,18 @@ public class PrimeNumberDetectorTest {
     public List<Integer> detect(int i) {
       // [[3], [2]], [[4], [2, 3]], [[5], [2, 3]], [[6], [2, 3, 5]] みたいなリストを
       // 永遠に返す stream からひとつ選んで二つ目の要素を返す
-      return Stream.iterate(Arrays.asList(Arrays.asList(3), Arrays.asList(2)), l -> {
-        final Integer n = l.get(0).get(0);
-        final List<Integer> primes = l.get(1);
-        return primes.stream().allMatch(m -> n % m != 0) ?
-                Arrays.asList(Arrays.asList(n + 1), Stream.of(primes, Arrays.asList(n))
-                                                      .flatMap(List<Integer>::stream)
-                                                      .collect(toList())
-                ) : Arrays.asList(Arrays.asList(n + 1), primes);
-      }).filter(l -> l.get(0).get(0) == i + 1).findFirst().get().get(1);
+      return i <= 1 ? emptyList() :
+             i == 2 ? Arrays.asList(2) :
+             // otherwise
+             Stream.iterate(Arrays.asList(Arrays.asList(3), Arrays.asList(2)), l -> {
+               final Integer n = l.get(0).get(0);
+               final List<Integer> primes = l.get(1);
+               return primes.stream().allMatch(m -> n % m != 0) ?
+                       Arrays.asList(Arrays.asList(n + 1), Stream.of(primes, Arrays.asList(n))
+                                                             .flatMap(List<Integer>::stream)
+                                                             .collect(toList())
+                       ) : Arrays.asList(Arrays.asList(n + 1), primes);
+      }).filter(l -> l.get(0).get(0) >= i + 1).findFirst().get().get(1);
     }
 
     // 他の人の回答を拝借
@@ -47,6 +52,17 @@ public class PrimeNumberDetectorTest {
           return false;
         }
       return IntStream.range(3, n).allMatch(x -> n % x != 0);
+  }
+
+  @Test
+  public void 素数判定_2以下() {
+    List<Integer> ps1 = new PrimeNumberDetector().detect(0);
+    assertThat(ps1, hasSize(0));
+    List<Integer> ps2 = new PrimeNumberDetector().detect(1);
+    assertThat(ps2, hasSize(0));
+    List<Integer> ps3 = new PrimeNumberDetector().detect(2);
+    assertThat(ps3, hasSize(1));
+    assertThat(ps3.get(0), is(2));
   }
 
   @Test

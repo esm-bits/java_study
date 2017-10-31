@@ -1,14 +1,11 @@
 package stream.lesson;
 
-import static java.util.Optional.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 import java.util.Optional;
 
-import org.junit.Test;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 
 public class OptionalTest {
 
@@ -23,7 +20,7 @@ public class OptionalTest {
     } else if ((i % 5) == 0) {
       return Optional.of("Buzz");
     } else {
-      return empty();
+      return Optional.empty();
     }
   }
 

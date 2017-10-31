@@ -1,9 +1,19 @@
 package stream.lesson;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.junit.Test;
 
 public class PrimeNumberDetectorTest {
@@ -12,18 +22,27 @@ public class PrimeNumberDetectorTest {
     // int値を受け取り、Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
     // ※ まだ答えを書いていません…
     public List<Integer> detect(int i) {
-      // TODO
-      
-      return null;
+      return range(0, i).filter(this::isPrime).boxed().collect(toList());
     }
 
     // int値を受け取り、並列Streamを使って0からその値までの全ての素数をListにして返すメソッドを実装してください
     // ※ まだ答えを書いていません…
     public List<Integer> detectParallel(int i) {
-      // TODO
-
-      return null;
+      return range(0, i).parallel().filter(this::isPrime).boxed().collect(toList());
     }
+
+    private boolean isPrime(int n) {
+      if (n < 2) {
+        return false;
+      }
+
+      for(int i=2;i<n;i++) {
+        if(n%i==0)
+          return false;
+      }
+      return true;
+    }
+
   }
 
   @Test

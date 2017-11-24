@@ -1,13 +1,13 @@
 package stream.lesson;
 
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -84,8 +84,8 @@ public class StreamTestOhashi {
         employees.add(new Employee(300, "夏井 優子", 21, Sex.FEMALE));
 
         Map<Integer, List<Employee>> grouped = employees.stream()
-                .sorted(Comparator.comparing(Employee::getAge))
-                .collect(Collectors.groupingBy(Employee::getDepartment))
+                .sorted(comparing(Employee::getAge))
+                .collect(groupingBy(Employee::getDepartment))
                 // あれやこれや
                 ;
         assertThat(grouped.size(), is(3));
@@ -113,7 +113,7 @@ public class StreamTestOhashi {
         employees.add(new Employee(300, "Miki Ichikawa", 43, Sex.FEMALE));
 
         Map<Sex, Double> averages = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getSex, Collectors.averagingDouble(Employee::getAge)))
+                .collect(groupingBy(Employee::getSex, averagingDouble(Employee::getAge)))
                 // あれやこれや
                 ;
 

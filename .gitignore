@@ -8,3 +8,8 @@ build/
 .project
 .settings/
 
+# Idea
+.idea
+*.iml
+*.iws
+*.ipr

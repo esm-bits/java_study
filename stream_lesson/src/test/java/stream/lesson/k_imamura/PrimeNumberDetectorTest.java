@@ -1,4 +1,4 @@
-package stream.lesson;
+package stream.lesson.k_imamura;
 
 import static java.util.stream.Collectors.*;
 import static java.util.stream.IntStream.*;
